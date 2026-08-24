@@ -1,0 +1,7 @@
+# dsh-client-ui-skill-fuzzy bundle patch: disable the built-in prefix-filter
+# skill menu and mount this plugin as its drop-in replacement.
+- id: ui-skill
+  disabled: true
+- insert:
+    - id: ui-skill-fuzzy
+      name: 'dsh-client-ui-skill-fuzzy'

@@ -18,6 +18,7 @@ DeepSeek Harness 的 web 端技能引用插件：把聊天框 `/` 菜单里的 *
 lib/
   index.js   # node half（无宿主行为）
   client.js  # 浏览器 half：candidates() 用 fuzzyScore 过滤
+cordis.patch.yml  # bundle patch：禁用内置 ui-skill 并挂载自身
 package.json
 ```
 
@@ -43,7 +44,7 @@ cd ~/.dsh/profiles/web && pnpm ls dsh-client-ui-skill-fuzzy
 dsh plugin --profile web up dsh-client-ui-skill-fuzzy
 ```
 
-> 注意：`dsh plugin add` 只负责把包装进 `profiles/web/node_modules` 并在 `package.json` 登记依赖，**不会自动修改 cordis.patch.yml**，仍需完成下面的「公共步骤」。
+> 注意：本插件以 **bundle** 形式交付（`dsh.bundle.patch`），`dsh plugin add` 装包后会把它 reconcile 进 `dsh.profile.bundles` 并自动应用自带 patch，**无需**手动修改 `cordis.patch.yml`。
 
 > 若本机 pnpm 报 lockfile / peer 冲突（如既有 `dsh-mobile` 依赖导致 ERESOLVE），可先提交 lockfile 变更或改用方式 B。
 
@@ -56,20 +57,13 @@ dsh plugin --profile web up dsh-client-ui-skill-fuzzy
 "dsh-client-ui-skill-fuzzy": "git+https://github.com/CnsMaple/dsh-client-ui-skill-fuzzy.git"
 ```
 
-### 公共步骤（两种方式都要）
+### 挂载（自动）
 
-1. 在 `profiles/web/cordis.patch.yml`：
+插件自带 `cordis.patch.yml`（禁用内置 `ui-skill` 前缀过滤、挂载自身），装包后由 bundle 层自动应用，**无需**手动修改 `profiles/web/cordis.patch.yml`。
 
-```yaml
-# ===== 自定义 ui-skill：模糊候选 =====
-- id: ui-skill
-  name: '@deepseek-ai/dsh-client-ui-skill'
-  disabled: true
-- insert:
-    - id: ui-skill-fuzzy
-      name: dsh-client-ui-skill-fuzzy
-```
+从旧版（手动 insert）升级时清理：
 
+1. 移除 `profiles/web/cordis.patch.yml` 里此前的两段：`- id: ui-skill / disabled: true` 与 `- insert: { id: ui-skill-fuzzy, ... }`，避免重复挂载。
 2. 重启 `dsh --profile web`，`__DSH_BOOT__` 中应出现 `dsh-client-ui-skill-fuzzy` 且不再有内置 `@deepseek-ai/dsh-client-ui-skill`；聊天框输入 `/ecrpa` 应命中 ecommerce-rpa-toolkit。
 
 ## 注意
