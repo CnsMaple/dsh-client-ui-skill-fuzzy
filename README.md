@@ -8,15 +8,16 @@ DeepSeek Harness 的 web 端技能引用插件：把聊天框 `/` 菜单里的 *
 
 | 项目 | 版本 | 说明 |
 | --- | --- | --- |
-| 官方上游 | `@deepseek-ai/dsh-client-ui-skill@0.1.1-rc.2` | 本插件内置其 `client.js` 基线 |
-| 核对日期 | 2026-08-24 | 核对 npm 上该上游的 latest 版本 |
+| 官方上游 | `@deepseek-ai/dsh-client-ui-skill@0.1.2-alpha.1` | 本插件内置其 `client.js` 基线（来自本地 DSH 仓库构建，npm 上尚未发布该版本） |
+| 核对日期 | 2026-08-28 | 核对本地 DSH 仓库 `master`（HEAD `cd5ef8148`）构建的上游 |
 | 本插件版本 | `0.1.0` | 与 `plugins/dsh-client-ui-skill-fuzzy` 仓库 `origin/main` 同步 |
 
 **核对方法**（上游发布新版本后）：
 
-1. 查上游最新版：`npm view @deepseek-ai/dsh-client-ui-skill version`，与上表比对。
-2. 若已发布新版本，运行 `npm pack @deepseek-ai/dsh-client-ui-skill@<new-version>` 解包，用其 `lib/client.js` 与本插件的 `lib/client.js` 做规范化对比（忽略 `id` / `tagId` / `dsh-client-ui-skill-fuzzy` 字样差异）。除 fuzzy 过滤逻辑（`boundaryBonus` / `fuzzyScore` / `fuzzyCandidates`，约 50 行）外应无其它差异；若有，把官方新增/修改同步进 `lib/client.js`（`candidates()` 内仍用 `fuzzyCandidates` 替换官方 `startsWith` 过滤）。
-3. 更新后同步修订上表并以 `git commit` 记录。
+1. 查上游最新版：若已发布到 npm，用 `npm view @deepseek-ai/dsh-client-ui-skill version` 比对；若尚未发布（本地分支/构建），以本地 `dsh` 仓库 `profiles/node_modules/@deepseek-ai/dsh-client-ui-skill` 的实际版本为准。
+2. 取上游对应版本的 `lib/client.js` 与 `lib/index.js`：npm 上已发布则 `npm pack @deepseek-ai/dsh-client-ui-skill@<new-version>` 解包，本地构建则直接读其 `node_modules` 副本。
+3. 与本插件的 `lib/client.js` / `lib/index.js` 做规范化对比（忽略 `id` / `tagId` / `dsh-client-ui-skill-fuzzy` 字样及 CSS 类名哈希差异）。除 fuzzy 过滤逻辑（`boundaryBonus` / `fuzzyScore` / `fuzzyCandidates`，约 50 行）外应无其它差异；若有，把官方新增/修改同步进（`candidates()` 内仍用 `fuzzyCandidates` 替换官方 `startsWith` 过滤）。
+4. 更新后同步修订上表并以 `git commit` 记录。
 
 > 注：官方上游即 `@deepseek-ai/dsh-client-ui-skill`（web 端 skill 菜单），而非 `@deepseek-ai/dsh-skill`（后者是 `/` 命令面板的包）。
 
