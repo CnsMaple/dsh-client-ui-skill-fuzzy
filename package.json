@@ -1,6 +1,6 @@
 {
   "name": "dsh-client-ui-skill-fuzzy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Web skill references with fuzzy candidate filtering (drop-in for @deepseek-ai/dsh-client-ui-skill)",
   "type": "module",
   "main": "lib/index.js",

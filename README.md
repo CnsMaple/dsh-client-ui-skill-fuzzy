@@ -8,9 +8,11 @@ DeepSeek Harness 的 web 端技能引用插件：把聊天框 `/` 菜单里的 *
 
 | 项目 | 版本 | 说明 |
 | --- | --- | --- |
-| 官方上游 | `@deepseek-ai/dsh-client-ui-skill@0.1.2-alpha.1` | 本插件内置其 `client.js` 基线（来自本地 DSH 仓库构建，npm 上尚未发布该版本） |
-| 核对日期 | 2026-08-28 | 核对本地 DSH 仓库 `master`（HEAD `cd5ef8148`）构建的上游 |
-| 本插件版本 | `0.1.0` | 与 `plugins/dsh-client-ui-skill-fuzzy` 仓库 `origin/main` 同步 |
+| 官方上游 | `@deepseek-ai/dsh-client-ui-skill@0.1.2-rc.1` | 本插件内置其 `client.js` 基线（来自本地 DSH 仓库构建，npm 上尚未发布该版本） |
+| 核对日期 | 2026-09-03 | 核对本地 DSH 仓库 `master`（HEAD `7169660d33`）构建的上游 |
+| 本插件版本 | `0.1.1` | 与 `plugins/dsh-client-ui-skill-fuzzy` 仓库 `origin/main` 同步 |
+
+> alpha.1 → rc.1 的上游实质差异（已同步）：`inject` 移除 `'connection'`；SkillRow CSS 改 0.5px hairline 边框并加 `corner-shape: round`；Remote 失败词汇收敛（错误码带 `gateway/` 前缀，仅影响错误 message 形态）；node half 的 invariant companion 删除（本插件 node half 本就不含）。候选过滤仍为 `startsWith`，fuzzy 替换点不变。
 
 **核对方法**（上游发布新版本后）：
 
